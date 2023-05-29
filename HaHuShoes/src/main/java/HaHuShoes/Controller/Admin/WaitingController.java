@@ -27,9 +27,7 @@ public class WaitingController extends HttpServlet {
 			if (u.getRoleId() == 1) {
 //				req.getRequestDispatcher("/views/admin/index.jsp").forward(req, resp);
 				resp.sendRedirect(req.getContextPath() + "/admin/dashboard?username="+username+"");
-			} else if (u.getRoleId() == 2) {
-				resp.sendRedirect(req.getContextPath() + "/seller/dashboard?username="+username+"");
-			} else {
+			}else {
 				resp.sendRedirect(req.getContextPath() + "/home");
 			}
 		} else {

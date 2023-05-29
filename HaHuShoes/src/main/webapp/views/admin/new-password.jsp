@@ -14,7 +14,6 @@
 							<i class="fa fa-user-edit me-2"></i>HaHuShoes
 						</h3>
 					</a>
-					<h3>Sign Up</h3>
 				</div>
 
 				<form action="newPassword" method="post">
@@ -37,7 +36,7 @@
 				<h3 class="alert alert-info">${alert}</h3>
 			</c:if>
 			<button type="submit" value="Reset"
-				class="btn btn-primary py-3 w-100 mb-4">Register</button>
+				class="btn btn-primary py-3 w-100 mb-4">Confirm</button>
 			<p class="text-center mb-0">
 				Already have an Account? <a
 					href="${pageContext.request.contextPath }/login">Sign In</a>

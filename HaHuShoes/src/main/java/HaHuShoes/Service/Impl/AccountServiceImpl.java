@@ -4,6 +4,7 @@ import java.util.List;
 
 import HaHuShoes.Dao.iAccountDao;
 import HaHuShoes.Dao.Impl.AccountDaoImpl;
+import HaHuShoes.Model.CountByRoleName;
 import HaHuShoes.Model.UserModel;
 import HaHuShoes.Service.iAccountService;
 
@@ -87,6 +88,12 @@ public class AccountServiceImpl implements iAccountService {
 	public void editPassword(UserModel userModel) {
 		// TODO Auto-generated method stub
 		loginDAO.edit(userModel);
+	}
+	
+	@Override
+	public List<CountByRoleName> countbyRoleNames() {
+		// TODO Auto-generated method stub
+		return loginDAO.countbyRoleNames();
 	}
 
 }

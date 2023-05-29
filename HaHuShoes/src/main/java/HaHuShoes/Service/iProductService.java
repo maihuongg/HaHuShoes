@@ -2,6 +2,7 @@ package HaHuShoes.Service;
 
 import java.util.List;
 
+import HaHuShoes.Model.ProductCategoryDTO;
 import HaHuShoes.Model.ProductModel;
 
 public interface iProductService {
@@ -22,11 +23,12 @@ public interface iProductService {
 	void delete(int producId);
 	void edit(ProductModel product);
 	void insert(ProductModel product);
-	ProductModel productbySellerId(int sellerId);
+	//ProductModel productbySellerId(int sellerId);
 	
-	List<ProductModel> findAllbySellerId(int sellerId, int index);
-	int countProductBySellerId(int sellerId);
+	//List<ProductModel> findAllbySellerId(int sellerId, int index);
+	//int countProductBySellerId(int sellerId);
 	
 	ProductModel findCateIdByProductId(int id);
 	List<ProductModel> findProductbyCateIdTop4(int cateId);
+	List<ProductCategoryDTO > getProductCountByCategory();
 }

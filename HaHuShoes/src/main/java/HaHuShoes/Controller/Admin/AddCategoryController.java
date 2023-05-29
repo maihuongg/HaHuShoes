@@ -16,14 +16,8 @@ import javax.servlet.http.Part;
 import org.eclipse.jdt.internal.compiler.batch.Main;
 
 import HaHuShoes.Model.CategoryModel;
-import HaHuShoes.Model.SellerModel;
-import HaHuShoes.Model.UserModel;
-import HaHuShoes.Service.iAccountService;
 import HaHuShoes.Service.iCategoryService;
-import HaHuShoes.Service.iSellerService;
-import HaHuShoes.Service.Impl.AccountServiceImpl;
 import HaHuShoes.Service.Impl.CategoryServiceImpl;
-import HaHuShoes.Service.Impl.SellerServiceImpl;
 @WebServlet(urlPatterns =  "/admin/category-management/add")
 @MultipartConfig()
 public class AddCategoryController extends HttpServlet{
@@ -32,13 +26,10 @@ public class AddCategoryController extends HttpServlet{
 	 */
 	private static final long serialVersionUID = 1L;
 	iCategoryService userService= new CategoryServiceImpl();
-	iSellerService sellerService= new SellerServiceImpl();
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 //		super.doGet(req, resp);
-		List<SellerModel> sellerList =sellerService.findAll();
-		req.setAttribute("sellerList", sellerList);
 		req.getRequestDispatcher("/views/admin/add-category-management.jsp").forward(req, resp);
 	}
 
@@ -54,7 +45,6 @@ public class AddCategoryController extends HttpServlet{
 		{
 			String name = req.getParameter("cateName");
 			String code = req.getParameter("cateCode");
-			int sellerId= Integer.parseInt(req.getParameter("sellerId"));
 			int status = Integer.parseInt(req.getParameter("status"));
 			/*
 			 * Part part = req.getPart("images");  String realPath =
@@ -68,7 +58,6 @@ public class AddCategoryController extends HttpServlet{
 //			set thuoc tinh
 			category.setCategoryName(name);
 			category.setCategoryCode(code);
-			category.setSellerId(sellerId);
 			category.setStatus(status);
 //			category.setImages(filename);
 			category.setImages(image);

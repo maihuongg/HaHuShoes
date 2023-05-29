@@ -2,6 +2,7 @@ package HaHuShoes.Service;
 
 import java.util.List;
 
+import HaHuShoes.Model.CountByRoleName;
 import HaHuShoes.Model.UserModel;
 
 public interface iAccountService {
@@ -29,5 +30,7 @@ public interface iAccountService {
 	void editindividual(UserModel userModel);
 
 	void editPassword(UserModel userModel);
+	
+	List<CountByRoleName> countbyRoleNames();
 	
 }

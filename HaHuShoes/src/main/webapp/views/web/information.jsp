@@ -44,6 +44,7 @@
 							href="shop" class="nav-item nav-link">Shop</a>
 						<a href="cart" class="nav-item nav-link active">Shopping Cart</a>
 						<a href="contact" class="nav-item nav-link">Contact</a>
+						<a href="order" class="nav-item nav-link">Order</a>
 					</div>
 					<div class="navbar-nav ml-auto py-0">
 						<c:if test="${sessionScope.account != null}">
@@ -71,14 +72,13 @@
 	<div
 		class="d-flex flex-column align-items-center justify-content-center"
 		style="min-height: 300px">
-		<h1 class="font-weight-semi-bold text-uppercase mb-3">Shopping
-			Cart</h1>
+		<h1 class="font-weight-semi-bold text-uppercase mb-3">Information</h1>
 		<div class="d-inline-flex">
 			<p class="m-0">
 				<a href="">Home</a>
 			</p>
 			<p class="m-0 px-2">-</p>
-			<p class="m-0">Shopping Cart</p>
+			<p class="m-0">Information</p>
 		</div>
 	</div>
 </div>
@@ -103,62 +103,12 @@
 					<label class="form-label">Address</label> <input type="text"
 						name="adress" value="" class="form-control">
 				</div>
-				<input type="submit" value="Payment"
+				<input type="submit" value="Order"
 					class="btn btn-block btn-primary my-3 py-3" />
 			</form>
-			<%-- <table class="table table-bordered text-center mb-0">
-				<thead class="bg-secondary text-dark">
-					<tr>
-						<th>Products</th>
-						<th>Price</th>
-						<th>Quantity</th>
-						<th>Total money</th>
-						<th>Remove</th>
-					</tr>
-				</thead>
-				<tbody class="align-middle">
-					
-					<c:forEach items="${o.items}" var="i">
-						<tr>
-							<td class="align-middle"><img src="${i.product.images }" alt=""
-								style="width: 50px;">${i.product.productName }</td>
-							<td class="align-middle">${i.price }VNĐ</td>
-							<td class="align-middle">
-								<div class="input-group quantity mx-auto" style="width: 150px;">
-									<div class="input-group-btn">
-										<button class="btn btn-default btn-minus">	
-											<a href="process?num=-1&id=${i.product.productId }"><i class="fa fa-minus"></i></a>
-										</button>
-									</div>
-									<div class="form-control text-center">${i.quantity }</div>
-									<div class="input-group-btn">
-										<button class="btn btn-default btn-plus">
-											<a href="process?num=1&id=${i.product.productId }"><i class="fa fa-plus"></i></a>
-										</button>
-									</div>
-								</div>		
-							</td>
-							<td class="align-middle">${(i.price*i.quantity) }VNĐ</td>
-							<td class="align-middle">
-								<form action="process" method="post">
-									<input type="hidden" name="id" value="${i.product.productId }"/>
-									<input type="submit" value="Delete"/>
-								</form>
-						</tr>
-					</c:forEach>
-				</tbody>
-			</table> --%>
+			
 		</div>
 		<div class="col-lg-4">
-			<!-- <form class="mb-5" action="">
-				<div class="input-group">
-					<input type="text" class="form-control p-4"
-						placeholder="Coupon Code">
-					<div class="input-group-append">
-						<button class="btn btn-primary">Apply Coupon</button>
-					</div>
-				</div>
-			</form> -->
 			<div class="card border-secondary mb-5">
 				<div class="card-header bg-secondary text-center border-0">
 					<h4 class="font-weight-semi-bold m-0">Cart Summary</h4>

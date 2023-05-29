@@ -28,7 +28,6 @@ public class CategoryDaoImpl extends ConnectionDB implements iCategoryDao {
 				category.setCategoryCode(rs.getString("categoryCode"));
 				category.setImages(rs.getString("images"));
 				category.setStatus(rs.getInt("status"));
-				category.setSellerId(rs.getInt("sellerId"));
 				categories.add(category);
 			}
 		} catch (Exception e) {
@@ -53,7 +52,6 @@ public class CategoryDaoImpl extends ConnectionDB implements iCategoryDao {
 				category.setCategoryName(rs.getString("categoryName"));
 				category.setImages(rs.getString("images"));
 				category.setStatus(rs.getInt("status"));
-				category.setSellerId(rs.getInt("sellerId"));
 				categories.add(category);
 			}
 		} catch (Exception e) {
@@ -91,15 +89,14 @@ public class CategoryDaoImpl extends ConnectionDB implements iCategoryDao {
 
 	@Override
 	public void insert(CategoryModel category) {
-		String sql = "INSERT INTO Category(categoryName,categoryCode,images,sellerId,status) VALUES (?,?,?,?,?)";
+		String sql = "INSERT INTO Category(categoryName,categoryCode,images,status) VALUES (?,?,?,?)";
 		try {
 			Connection con = super.getConnectionW();
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, category.getCategoryName());
 			ps.setString(2, category.getCategoryCode());
 			ps.setString(3, category.getImages());
-			ps.setInt(4, category.getSellerId());
-			ps.setInt(5, category.getStatus());
+			ps.setInt(4, category.getStatus());
 			ps.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -125,11 +122,12 @@ public class CategoryDaoImpl extends ConnectionDB implements iCategoryDao {
 
 	@Override
 	public void delete(int cateId) {
-		String sql = "delete Category where categoryId = ?";
+		String sql = "update Category set status=? where categoryId = ?";
 		try {
 			Connection con = super.getConnectionW();
 			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setInt(1, cateId);
+			ps.setInt(1, 0);
+			ps.setInt(2, cateId);
 			ps.executeUpdate();
 		} catch (Exception e) {
 
@@ -138,15 +136,14 @@ public class CategoryDaoImpl extends ConnectionDB implements iCategoryDao {
 
 	@Override
 	public void edit(CategoryModel category) {
-		String sql = "UPDATE Category set categoryName=?,categoryCode=?,images=?,sellerId=? where categoryId=?";
+		String sql = "UPDATE Category set categoryName=?,categoryCode=?,images=? where categoryId=?";
 		try {
 			Connection con = super.getConnectionW();
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, category.getCategoryName());
 			ps.setString(2, category.getCategoryCode());
 			ps.setString(3, category.getImages());
-			ps.setInt(4, category.getSellerId());
-			ps.setInt(5, category.getCategoryId());
+			ps.setInt(4, category.getCategoryId());
 			ps.executeUpdate();
 
 		} catch (Exception e) {
@@ -173,7 +170,6 @@ public class CategoryDaoImpl extends ConnectionDB implements iCategoryDao {
 				category.setCategoryCode(rs.getString("categoryCode"));
 				category.setImages(rs.getString("images"));
 				category.setStatus(rs.getInt("status"));
-				category.setSellerId(rs.getInt("sellerId"));
 				categories.add(category);
 			}
 		} catch (Exception e) {

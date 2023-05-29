@@ -15,26 +15,21 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
 import HaHuShoes.Model.CategoryModel;
-import HaHuShoes.Model.SellerModel;
 import HaHuShoes.Model.UserModel;
 import HaHuShoes.Service.iCategoryService;
-import HaHuShoes.Service.iSellerService;
 import HaHuShoes.Service.Impl.CategoryServiceImpl;
-import HaHuShoes.Service.Impl.SellerServiceImpl;
+
 
 @WebServlet(urlPatterns = { "/admin/category-management/edit" })
 @MultipartConfig()
 public class DetailCategoryController extends HttpServlet{
 	iCategoryService categoryService= new CategoryServiceImpl();
-	iSellerService sellerService= new SellerServiceImpl();
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		String cateId = req.getParameter("categoryId");
 		CategoryModel oneUser = categoryService.get(Integer.parseInt(cateId));
-		List<SellerModel> sellerList =sellerService.findAll();
-		req.setAttribute("sellerList", sellerList);
 		req.setAttribute("oneUser", oneUser);
 		req.getRequestDispatcher("/views/admin/category-detail.jsp").forward(req, resp);
 
@@ -53,7 +48,6 @@ public class DetailCategoryController extends HttpServlet{
 			
 			String cateName = req.getParameter("categoryName");
 			String cateCode = req.getParameter("categoryCode");
-			int sellerId= Integer.parseInt(req.getParameter("sellerId"));
 //			Integer status =Integer.parseInt("status");
 			
 			/*
@@ -68,7 +62,6 @@ public class DetailCategoryController extends HttpServlet{
 			
 			categoryModel.setCategoryName(cateName);
 			categoryModel.setCategoryCode(cateCode);
-			categoryModel.setSellerId(sellerId);
 //			categoryModel.setImages(filename);
 			categoryModel.setImages(image);
 			

@@ -7,7 +7,7 @@ import java.sql.DriverManager;
 
 public class ConnectionDB {
 //	private final String serverName = "LAPTOP-930OP88C\\SQLEXPRESS";
-	private final String serverName = "DESKTOP-3S3BS06\\SQLEXPRESS";
+	private final String serverName = "DESKTOP-3S3BS06";
 	private final String dbName = "HaHuShoes";
 	private final String portNumber = "1433";
 	private final String instance = "";// MSSQLSERVER LEAVE THIS ONE EMPTY IF YOUR SQL IS A SINGLE INSTANCE

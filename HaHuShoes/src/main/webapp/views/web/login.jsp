@@ -2,7 +2,7 @@
 	pageEncoding="utf-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<div class="d-flex flex-column align-items-center justify-content-center" >
+<!-- <div class="d-flex flex-column align-items-center justify-content-center" >
             <h1 class="font-weight-semi-bold text-uppercase mb-3" style="text-align: center; padding-top: 20px;color: white;">HAHUSHOES</h1>
             <div class="d-inline-flex">
                 <h2 class="m-0" style="text-align: center;"> <a href="home">Back to Home  </a></h2> 
@@ -10,12 +10,50 @@
                 <p class="m-0 px-2">-</p>
                 
             </div>
-        </div>
+        </div> -->
+
+
+<!-- Navbar Start -->
+<div class="container-fluid mb-5">
+	<div class="row border-top px-xl-5">
+		<div class="col-lg-9">
+			<nav
+				class="navbar navbar-expand-lg bg-light navbar-light py-3 py-lg-0 px-0">
+				<a href="" class="text-decoration-none d-block d-lg-none">
+					<h1 class="m-0 display-5 font-weight-semi-bold">
+						<span class="text-primary font-weight-bold border px-3 mr-1">H</span>aHuShoes
+					</h1>
+				</a>
+				<button type="button" class="navbar-toggler" data-toggle="collapse"
+					data-target="#navbarCollapse">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse justify-content-between"
+					id="navbarCollapse">
+					<div class="navbar-nav mr-auto py-0">
+						<a href="home" class="nav-item nav-link">Home</a> <a
+							href="shop" class="nav-item nav-link">Shop</a>
+						<a href="cart" class="nav-item nav-link active">Shopping Cart</a>
+						<a href="contact" class="nav-item nav-link">Contact</a>
+					</div>
+					<div class="navbar-nav ml-auto py-0">
+						<c:if test="${sessionScope.account == null}">
+							<a href="" class="nav-item nav-link">Register</a>
+						</c:if>
+
+					</div>
+				</div>
+			</nav>
+		</div>
+	</div>
+</div>
+<!-- Navbar End -->
+
 <div class="container"
 	style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 450px; background: white; border-radius: 10px; box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.05);">
 
 
-	<body style="background: linear-gradient(120deg, #3ca7ee, #9b408f); height: 100vh; overflow: hidden;">
+	<body>
 	
 		<div class="container py-5 h-100" style="padding: 0 40px;">
 			<div

@@ -33,9 +33,10 @@
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i> Management </a>
                         <div class="dropdown-menu bg-transparent border-0">
-                            <a href="user-management" class="dropdown-item" >Users</a>
-                            <a href="category-management" class="dropdown-item">Categories</a>
-                            <a href="product-management" class="dropdown-item active">Products</a>
+                            <a href="/Lecture03/admin/user-management" class="dropdown-item" >Users</a>
+                            <a href="/Lecture03/admin/category-management" class="dropdown-item">Categories</a>
+                            <a href="/Lecture03/admin/product-management" class="dropdown-item active">Products</a>
+                            <a href="/Lecture03/admin/order-management" class="dropdown-item">Orders</a>
                         </div>
                     </div>
                    
@@ -116,7 +117,7 @@
 										value="${oneUser.images } " type="text" id="formFile">
 								</div>
 								<div class="mb-3">
-									<label for="exampleFormControlSelect1">Seller select</label> <select
+									<label for="exampleFormControlSelect1">Category select</label> <select
 										class="form-control" id="exampleFormControlSelect1"
 										name="categoryId">
 

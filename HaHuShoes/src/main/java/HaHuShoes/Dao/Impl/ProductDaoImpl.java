@@ -8,11 +8,10 @@ import java.util.List;
 import HaHuShoes.Connection.ConnectionDB;
 import HaHuShoes.Dao.iCategoryDao;
 import HaHuShoes.Dao.iProductDao;
-import HaHuShoes.Dao.iSellerDao;
 import HaHuShoes.Model.CategoryModel;
+import HaHuShoes.Model.ProductCategoryDTO;
 import HaHuShoes.Model.ProductModel;
-import HaHuShoes.Model.SellerModel;
-import HaHuShoes.Model.ProductModel;
+
 
 public class ProductDaoImpl extends ConnectionDB implements iProductDao {
 	Connection conn = null;
@@ -44,7 +43,6 @@ public class ProductDaoImpl extends ConnectionDB implements iProductDao {
 				product.setStatus(rs.getInt("status"));
 				product.setImages(rs.getString("images"));
 				product.setCreateDate(rs.getDate("createDate"));
-				product.setSellerId(rs.getInt("sellerId"));
 				
 				products.add(product);
 			}
@@ -80,7 +78,6 @@ public class ProductDaoImpl extends ConnectionDB implements iProductDao {
 				product.setStatus(rs.getInt("status"));
 				product.setImages(rs.getString("images"));
 				product.setCreateDate(rs.getDate("createDate"));
-				product.setSellerId(rs.getInt("sellerId"));
 				
 				products.add(product);
 			}
@@ -116,7 +113,6 @@ public class ProductDaoImpl extends ConnectionDB implements iProductDao {
 				product.setStatus(rs.getInt("status"));
 				product.setImages(rs.getString("images"));
 				product.setCreateDate(rs.getDate("createDate"));
-				product.setSellerId(rs.getInt("sellerId"));
 				
 				products.add(product);
 			}
@@ -138,11 +134,9 @@ public class ProductDaoImpl extends ConnectionDB implements iProductDao {
 			ps.setInt(1, productId);
 			ResultSet rs = ps.executeQuery();
 			iCategoryDao categoryDao = new CategoryDaoImpl();
-			iSellerDao sellerDao = new SellerDaoImpl();
 			while (rs.next()) {
 				ProductModel productoneId = new ProductModel();
 				CategoryModel categoryModel = new CategoryModel();
-				SellerModel sellerModel = new SellerModel();
 				productoneId.setProductId(rs.getInt("productId"));
 				Integer idCate = rs.getInt("categoryId");
 				categoryModel = categoryDao.get(idCate);
@@ -159,7 +153,6 @@ public class ProductDaoImpl extends ConnectionDB implements iProductDao {
 				productoneId.setStatus(rs.getInt("status"));
 				productoneId.setCreateDate(rs.getDate("createDate"));
 				
-				productoneId.setSellerId(rs.getInt("sellerId"));
 				productoneId.setCategoryModel(categoryModel);
 				return productoneId;
 			}
@@ -174,13 +167,14 @@ public class ProductDaoImpl extends ConnectionDB implements iProductDao {
 	public List<ProductModel> pagingProduct(int index) {
 		// TODO Auto-generated method stub
 		List<ProductModel> productPagingList = new ArrayList<ProductModel>();
-		String sql = "SELECT * FROM Product order by productId OFFSET ? ROW fetch next 3 rows only";
+		String sql = "SELECT * FROM Product where status=? order by productId OFFSET ? ROW fetch next 3 rows only";
 		try {
 			conn = super.getConnectionW();// mở kết nối
 			pStatement = conn.prepareStatement(sql);// ném câu qery qua sql
 
+			pStatement.setInt(1, 1);
 			// truyền index-1*3 vào ? trên sql và 1- offset
-			pStatement.setInt(1, (index - 1) * 3);
+			pStatement.setInt(2, (index - 1) * 3);
 			rSet = pStatement.executeQuery();
 			iCategoryDao categoryDao = new CategoryDaoImpl();
 			while (rSet.next()) {
@@ -200,7 +194,6 @@ public class ProductDaoImpl extends ConnectionDB implements iProductDao {
 				productModel.setWishlist(rSet.getInt("wishlist"));
 				productModel.setStatus(rSet.getInt("status"));
 				productModel.setCreateDate(rSet.getDate("createDate"));
-				productModel.setSellerId(rSet.getInt("sellerId"));
 
 				productModel.setCategoryModel(categoryModel);
 				productPagingList.add(productModel);
@@ -216,10 +209,11 @@ public class ProductDaoImpl extends ConnectionDB implements iProductDao {
 	@Override
 	public int countAll() {
 		// TODO Auto-generated method stub
-		String sql = "select count(*) from Product";
+		String sql = "select count(*) from Product Where status=?";
 		try {
 			conn = super.getConnectionW();
 			pStatement = conn.prepareStatement(sql);
+			pStatement.setInt(1, 1);
 			rSet = pStatement.executeQuery();
 			while (rSet.next()) {
 				return rSet.getInt(1);
@@ -232,14 +226,15 @@ public class ProductDaoImpl extends ConnectionDB implements iProductDao {
 
 	@Override
 	public List<ProductModel> findProductbyCateId(int cateId, int index) {
-		String sql = "select * from Product where categoryId = ? ORDER BY productId OFFSET ? rows fetch next 3 rows only";
+		String sql = "select * from Product where status=? and categoryId = ? ORDER BY productId OFFSET ? rows fetch next 3 rows only";
 		List<ProductModel> products = new ArrayList<ProductModel>();
 		try {
 			Connection conn = super.getConnectionW();
 			PreparedStatement ps = conn.prepareStatement(sql);
-			ps.setInt(1, cateId);
+			ps.setInt(1, 1);
+			ps.setInt(2, cateId);
 			int indexp = (index - 1) * 3;
-			ps.setInt(2, indexp);
+			ps.setInt(3, indexp);
 			ResultSet rs = ps.executeQuery();
 			iCategoryDao categoryDao = new CategoryDaoImpl();
 			while (rs.next()) {
@@ -258,7 +253,6 @@ public class ProductDaoImpl extends ConnectionDB implements iProductDao {
 				product.setImages(rs.getString("images"));
 				product.setWishlist(rs.getInt("wishlist"));
 				product.setStatus(rs.getInt("status"));
-				product.setSellerId(rs.getInt("sellerId"));
 				product.setCategoryModel(category);
 				products.add(product);
 			}
@@ -275,13 +269,14 @@ public class ProductDaoImpl extends ConnectionDB implements iProductDao {
 	public List<ProductModel> SearchProduct(String txtsearch, int index) {
 		iCategoryDao categoryDao = new CategoryDaoImpl();
 		List<ProductModel> productList = new ArrayList<ProductModel>();
-		String sql = "SELECT * FROM Product WHERE productName LIKE ? ORDER BY productId OFFSET ? rows fetch next 3 rows only";
+		String sql = "SELECT * FROM Product WHERE status=? and productName LIKE ? ORDER BY productId OFFSET ? rows fetch next 3 rows only";
 		try {
 			Connection con = super.getConnectionW();
 			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setString(1, "%" + txtsearch + "%");
+			ps.setInt(1, 1);
+			ps.setString(2, "%" + txtsearch + "%");
 			int indexp = (index - 1) * 3;
-			ps.setInt(2, indexp);
+			ps.setInt(3, indexp);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				ProductModel product = new ProductModel();
@@ -299,7 +294,6 @@ public class ProductDaoImpl extends ConnectionDB implements iProductDao {
 				product.setImages(rs.getString("images"));
 				product.setWishlist(rs.getInt("wishlist"));
 				product.setStatus(rs.getInt("status"));
-				product.setSellerId(rs.getInt("sellerId"));
 				product.setCategoryModel(category);
 				productList.add(product);
 			}
@@ -313,11 +307,12 @@ public class ProductDaoImpl extends ConnectionDB implements iProductDao {
 
 	@Override
 	public int countSearchProduct(String txtsearch) {
-		String sql = "SELECT count(*) FROM Product WHERE productName LIKE ?";
+		String sql = "SELECT count(*) FROM Product WHERE status=? and productName LIKE ?";
 		try {
 			Connection conn = super.getConnectionW();
 			PreparedStatement ps = conn.prepareStatement(sql);
-			ps.setString(1, "%" + txtsearch + "%");
+			ps.setInt(1, 1);
+			ps.setString(2, "%" + txtsearch + "%");
 			ResultSet rs = ps.executeQuery();
 
 			while (rs.next()) {
@@ -331,11 +326,12 @@ public class ProductDaoImpl extends ConnectionDB implements iProductDao {
 
 	@Override
 	public int countProductByCategory(int cateId) {
-		String sql = "SELECT count(*) FROM Product WHERE categoryId = ?";
+		String sql = "SELECT count(*) FROM Product WHERE status=? and categoryId = ?";
 		try {
 			Connection conn = super.getConnectionW();
 			PreparedStatement ps = conn.prepareStatement(sql);
-			ps.setInt(1, cateId);
+			ps.setInt(1, 1);
+			ps.setInt(2, cateId);
 			ResultSet rs = ps.executeQuery();
 
 			while (rs.next()) {
@@ -402,11 +398,12 @@ public class ProductDaoImpl extends ConnectionDB implements iProductDao {
 
 	@Override
 	public void delete(int productId) {
-		String sql = "DELETE Product WHERE productId = ?";
+		String sql = "UPDATE Product SET status=? WHERE productId = ?";
 		try {
 			Connection con = super.getConnectionW();
 			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setInt(1, productId);
+			ps.setInt(1, 0);
+			ps.setInt(2, productId);
 			ps.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -417,13 +414,14 @@ public class ProductDaoImpl extends ConnectionDB implements iProductDao {
 	public List<ProductModel> pagingProductManagement(int index) {
 		// TODO Auto-generated method stub
 		List<ProductModel> productPagingList = new ArrayList<ProductModel>();
-		String sql = "SELECT * FROM Product order by productId OFFSET ? ROW fetch next 5 rows only";
+		String sql = "SELECT * FROM Product where status=? order by productId OFFSET ? ROW fetch next 5 rows only";
 		try {
 			conn = super.getConnectionW();// mở kết nối
 			pStatement = conn.prepareStatement(sql);// ném câu qery qua sql
 
+			pStatement.setInt(1, 1);
 			// truyền index-1*3 vào ? trên sql và 1- offset
-			pStatement.setInt(1, (index - 1) * 5);
+			pStatement.setInt(2, (index - 1) * 5);
 			rSet = pStatement.executeQuery();
 			iCategoryDao categoryDao = new CategoryDaoImpl();
 			while (rSet.next()) {
@@ -443,7 +441,6 @@ public class ProductDaoImpl extends ConnectionDB implements iProductDao {
 				productModel.setWishlist(rSet.getInt("wishlist"));
 				productModel.setStatus(rSet.getInt("status"));
 				productModel.setCreateDate(rSet.getDate("createDate"));
-				productModel.setSellerId(rSet.getInt("sellerId"));
 
 				
 				productModel.setCategoryModel(categoryModel);
@@ -456,108 +453,77 @@ public class ProductDaoImpl extends ConnectionDB implements iProductDao {
 		}
 		return null;
 	}
-	@Override
-	public ProductModel productbySellerId(int sellerId) {
-		// TODO Auto-generated method stub
-		// show chi tiết 1 sản phẩm
-		String sql = "SELECT * FROM Product WHERE sellerId = ?";
-		try {
-			Connection con = super.getConnectionW();
-			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setInt(1, sellerId);
-			ResultSet rs = ps.executeQuery();
-			iCategoryDao categoryDao = new CategoryDaoImpl();
-			while (rs.next()) {
-				ProductModel productsellerId = new ProductModel();
-				CategoryModel categoryModel = new CategoryModel();
-				productsellerId.setProductId(rs.getInt("productId"));
-				Integer idCate = rs.getInt("categoryId");
-				categoryModel = categoryDao.get(idCate);
 
-				productsellerId.setProductName(rs.getString("productName"));
-				productsellerId.setProductCode(rs.getString("productCode"));
-				productsellerId.setCategoryId(idCate);
-				productsellerId.setDescription(rs.getString("descriptions"));
-				productsellerId.setPrice(rs.getDouble("price"));
-				productsellerId.setAmount(rs.getInt("amount"));
-				productsellerId.setStock(rs.getInt("stock"));
-				productsellerId.setImages(rs.getString("images"));
-				productsellerId.setWishlist(rs.getInt("wishlist"));
-				productsellerId.setStatus(rs.getInt("status"));
-				productsellerId.setCreateDate(rs.getDate("createDate"));
-				productsellerId.setSellerId(rs.getInt("sellerId"));
-				productsellerId.setCategoryModel(categoryModel);
-				return productsellerId;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-
-	}
-	@Override
-	public List<ProductModel> findAllbySellerId(int sellerId,int index) {
-		// TODO Auto-generated method stub
-		iCategoryDao categoryDao = new CategoryDaoImpl();
-		iSellerDao sellerDao= new SellerDaoImpl();
-		List<ProductModel> products = new ArrayList<ProductModel>();
-		String sql = "select * from Product where sellerId = ? ORDER BY productId OFFSET ? rows fetch next 5 rows only";
-		try {
-			Connection conn = super.getConnectionW();
-			PreparedStatement ps = conn.prepareStatement(sql);
-			ps.setInt(1, sellerId);
-			int indexp = (index - 1) * 5;
-			ps.setInt(2, indexp);
-			ResultSet rs = ps.executeQuery();
-			while (rs.next()) {
-				ProductModel product = new ProductModel();
-				CategoryModel category = new CategoryModel();
-				SellerModel sellerModel =new SellerModel();
-				Integer idCate = rs.getInt("categoryId");
-				category = categoryDao.get(idCate);
-				product.setProductId(rs.getInt("productId"));
-				product.setProductName(rs.getString("productName"));
-				product.setProductCode(rs.getString("productCode"));
-				product.setCategoryId(idCate);
-				product.setDescription(rs.getString("descriptions"));
-				product.setPrice(rs.getDouble("price"));
-				product.setAmount(rs.getInt("amount"));
-				product.setStock(rs.getInt("stock"));
-				product.setImages(rs.getString("images"));
-				product.setWishlist(rs.getInt("wishlist"));
-				product.setStatus(rs.getInt("status"));
-				Integer idSeller = rs.getInt("sellerId");
-				sellerModel=sellerDao.getSellerId(idSeller);
-				
-				
-				product.setSellerModel(sellerModel);
-				product.setSellerId(rs.getInt("sellerId"));
-				product.setCategoryModel(category);
-				products.add(product);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return products;
-
-	}
-	@Override
-	public int countProductBySellerId(int sellerId) {
-		String sql = "SELECT count(*) FROM Product WHERE sellerId = ?";
-		try {
-			Connection conn = super.getConnectionW();
-			PreparedStatement ps = conn.prepareStatement(sql);
-			ps.setInt(1, sellerId);
-			ResultSet rs = ps.executeQuery();
-
-			while (rs.next()) {
-				return rs.getInt(1);
-			}
-		} catch (Exception e) {
-		}
-
-		return 0;
-	}
+	/*
+	 * @Override public ProductModel productbySellerId(int sellerId) { // TODO
+	 * Auto-generated method stub // show chi tiết 1 sản phẩm String sql =
+	 * "SELECT * FROM Product WHERE sellerId = ?"; try { Connection con =
+	 * super.getConnectionW(); PreparedStatement ps = con.prepareStatement(sql);
+	 * ps.setInt(1, sellerId); ResultSet rs = ps.executeQuery(); iCategoryDao
+	 * categoryDao = new CategoryDaoImpl(); while (rs.next()) { ProductModel
+	 * productsellerId = new ProductModel(); CategoryModel categoryModel = new
+	 * CategoryModel(); productsellerId.setProductId(rs.getInt("productId"));
+	 * Integer idCate = rs.getInt("categoryId"); categoryModel =
+	 * categoryDao.get(idCate);
+	 * 
+	 * productsellerId.setProductName(rs.getString("productName"));
+	 * productsellerId.setProductCode(rs.getString("productCode"));
+	 * productsellerId.setCategoryId(idCate);
+	 * productsellerId.setDescription(rs.getString("descriptions"));
+	 * productsellerId.setPrice(rs.getDouble("price"));
+	 * productsellerId.setAmount(rs.getInt("amount"));
+	 * productsellerId.setStock(rs.getInt("stock"));
+	 * productsellerId.setImages(rs.getString("images"));
+	 * productsellerId.setWishlist(rs.getInt("wishlist"));
+	 * productsellerId.setStatus(rs.getInt("status"));
+	 * productsellerId.setCreateDate(rs.getDate("createDate"));
+	 * productsellerId.setSellerId(rs.getInt("sellerId"));
+	 * productsellerId.setCategoryModel(categoryModel); return productsellerId; } }
+	 * catch (Exception e) { e.printStackTrace(); } return null;
+	 * 
+	 * }
+	 */
+	/*
+	 * @Override public List<ProductModel> findAllbySellerId(int sellerId,int index)
+	 * { // TODO Auto-generated method stub iCategoryDao categoryDao = new
+	 * CategoryDaoImpl(); iSellerDao sellerDao= new SellerDaoImpl();
+	 * List<ProductModel> products = new ArrayList<ProductModel>(); String sql =
+	 * "select * from Product where sellerId = ? ORDER BY productId OFFSET ? rows fetch next 5 rows only"
+	 * ; try { Connection conn = super.getConnectionW(); PreparedStatement ps =
+	 * conn.prepareStatement(sql); ps.setInt(1, sellerId); int indexp = (index - 1)
+	 * * 5; ps.setInt(2, indexp); ResultSet rs = ps.executeQuery(); while
+	 * (rs.next()) { ProductModel product = new ProductModel(); CategoryModel
+	 * category = new CategoryModel(); SellerModel sellerModel =new SellerModel();
+	 * Integer idCate = rs.getInt("categoryId"); category = categoryDao.get(idCate);
+	 * product.setProductId(rs.getInt("productId"));
+	 * product.setProductName(rs.getString("productName"));
+	 * product.setProductCode(rs.getString("productCode"));
+	 * product.setCategoryId(idCate);
+	 * product.setDescription(rs.getString("descriptions"));
+	 * product.setPrice(rs.getDouble("price"));
+	 * product.setAmount(rs.getInt("amount")); product.setStock(rs.getInt("stock"));
+	 * product.setImages(rs.getString("images"));
+	 * product.setWishlist(rs.getInt("wishlist"));
+	 * product.setStatus(rs.getInt("status")); Integer idSeller =
+	 * rs.getInt("sellerId"); sellerModel=sellerDao.getSellerId(idSeller);
+	 * 
+	 * 
+	 * product.setSellerModel(sellerModel);
+	 * product.setSellerId(rs.getInt("sellerId"));
+	 * product.setCategoryModel(category); products.add(product); } } catch
+	 * (Exception e) { e.printStackTrace(); } return products;
+	 * 
+	 * }
+	 * 
+	 * @Override public int countProductBySellerId(int sellerId) { String sql =
+	 * "SELECT count(*) FROM Product WHERE sellerId = ?"; try { Connection conn =
+	 * super.getConnectionW(); PreparedStatement ps = conn.prepareStatement(sql);
+	 * ps.setInt(1, sellerId); ResultSet rs = ps.executeQuery();
+	 * 
+	 * while (rs.next()) { return rs.getInt(1); } } catch (Exception e) { }
+	 * 
+	 * return 0; }
+	 */
 	
 	@Override
 	public List<ProductModel> findProductbyCateIdTop4(int cateId) {
@@ -585,7 +551,6 @@ public class ProductDaoImpl extends ConnectionDB implements iProductDao {
 				product.setStatus(rs.getInt("status"));
 				product.setImages(rs.getString("images"));
 				product.setCreateDate(rs.getDate("createDate"));
-				product.setSellerId(rs.getInt("sellerId"));
 				products.add(product);
 			}
 		} catch (Exception e) {
@@ -618,7 +583,6 @@ public class ProductDaoImpl extends ConnectionDB implements iProductDao {
 				product.setStatus(rs.getInt("status"));
 				product.setImages(rs.getString("images"));
 				product.setCreateDate(rs.getDate("createDate"));
-				product.setSellerId(rs.getInt("sellerId"));
 				return product;
 			}
 		}catch (Exception e) {
@@ -633,4 +597,25 @@ public class ProductDaoImpl extends ConnectionDB implements iProductDao {
 
 	}
 
+	public List<ProductCategoryDTO > getProductCountByCategory(){
+	    List<ProductCategoryDTO> result = new ArrayList<>();
+
+	    try (
+	    		Connection conn = super.getConnectionW();
+	         PreparedStatement stmt = conn.prepareStatement("SELECT c.categoryName, COUNT(p.productId) AS total FROM Product p INNER JOIN Category c ON p.categoryId = c.categoryId GROUP BY c.categoryName");
+	         ResultSet rs = stmt.executeQuery()) {
+
+	    	 while (rs.next()) {
+//	             int categoryId = rs.getInt("categoryId");
+	             String categoryName = rs.getString("categoryName");
+	             int productCount = rs.getInt("total");
+	             ProductCategoryDTO productCategory = new ProductCategoryDTO(0, categoryName, productCount);
+	             result.add(productCategory);
+	         }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+
+	    return result;
+	}
 }

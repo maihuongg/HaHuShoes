@@ -36,6 +36,7 @@
                             <a href="user-management" class="dropdown-item">Users</a>
                             <a href="category-management" class="dropdown-item">Categories</a>
                             <a href="product-management" class="dropdown-item">Products</a>
+                            <a href="order-management" class="dropdown-item">Order</a>
                         </div>
                     </div>
                    

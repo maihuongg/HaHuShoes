@@ -15,7 +15,7 @@ public class ProductModel {
 	private int status;
 	private String images;
 	private Date createDate;
-	private int sellerId;
+
 	
 	
 	public int getProductId() {
@@ -90,12 +90,6 @@ public class ProductModel {
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
 	}
-	public int getSellerId() {
-		return sellerId;
-	}
-	public void setSellerId(int sellerId) {
-		this.sellerId = sellerId;
-	}
 	
 	public CategoryModel getCategoryModel() {
 		return categoryModel;
@@ -103,16 +97,11 @@ public class ProductModel {
 	public void setCategoryModel(CategoryModel categoryModel) {
 		this.categoryModel = categoryModel;
 	}
-	public SellerModel getSellerModel() {
-		return sellerModel;
-	}
-	public void setSellerModel(SellerModel sellerModel) {
-		this.sellerModel = sellerModel;
-	}
+
 	
 	public ProductModel(int productId, String productName, String productCode, int categoryId, String description,
-			double price, int amount, int stock, int wishlist, int status, String images, Date createDate, int sellerId,
-			 CategoryModel categoryModel, SellerModel sellerModel) {
+			double price, int amount, int stock, int wishlist, int status, String images, Date createDate,
+			 CategoryModel categoryModel) {
 		super();
 		this.productId = productId;
 		this.productName = productName;
@@ -126,15 +115,13 @@ public class ProductModel {
 		this.status = status;
 		this.images = images;
 		this.createDate = createDate;
-		this.sellerId = sellerId;
 		
 		this.categoryModel = categoryModel;
-		this.sellerModel = sellerModel;
 		
 	}
 	public ProductModel() {
 		// TODO Auto-generated constructor stub
 	}
 	private CategoryModel categoryModel;
-	private SellerModel sellerModel;
+
 }

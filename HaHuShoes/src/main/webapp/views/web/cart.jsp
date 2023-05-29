@@ -44,6 +44,7 @@
 							href="shop" class="nav-item nav-link">Shop</a>
 						<a href="cart" class="nav-item nav-link active">Shopping Cart</a>
 						<a href="contact" class="nav-item nav-link">Contact</a>
+						<a href="order" class="nav-item nav-link">Order</a>
 					</div>
 					<div class="navbar-nav ml-auto py-0">
 						<c:if test="${sessionScope.account != null}">
@@ -156,7 +157,7 @@
 						<input type="submit" value="Payment" class="btn btn-block btn-primary my-3 py-3"/>
 					</form> -->
 					<div class="card-header bg-secondary text-center border-0">
-						<a type="button" class="btn btn-block btn-default my-2 py-2 font-weight-semi-bold" href="information">PROCEED TO CHECKOUT</a>
+						<a type="button" class="btn btn-block btn-default my-2 py-2 font-weight-semi-bold" href="information">PROCEED TO ORDER</a>
 					</div>
 					<hr/>
 					<div class="card-header bg-secondary text-center border-0">

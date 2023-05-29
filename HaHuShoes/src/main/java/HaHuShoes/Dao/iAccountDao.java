@@ -2,6 +2,7 @@ package HaHuShoes.Dao;
 
 import java.util.List;
 
+import HaHuShoes.Model.CountByRoleName;
 import HaHuShoes.Model.UserModel;
 
 
@@ -26,5 +27,7 @@ public interface iAccountDao {
 	void editindividual(UserModel userModel);
 
 	void editPassword(UserModel userModel);
+	
+	List<CountByRoleName> countbyRoleNames();
 	
 }

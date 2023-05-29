@@ -5,6 +5,7 @@ import java.util.List;
 import HaHuShoes.Connection.ConnectionDB;
 import HaHuShoes.Dao.iProductDao;
 import HaHuShoes.Dao.Impl.ProductDaoImpl;
+import HaHuShoes.Model.ProductCategoryDTO;
 import HaHuShoes.Model.ProductModel;
 import HaHuShoes.Service.iProductService;
 
@@ -95,19 +96,15 @@ public class ProductServiceImpl extends ConnectionDB implements iProductService 
 		return productDao.pagingProductManagement(index);
 	}
 
-	@Override
-	public ProductModel productbySellerId(int sellerId) {
-		return productDao.productbySellerId(sellerId);
-	}
-	public List<ProductModel> findAllbySellerId(int sellerId, int index)
-	{
-		return productDao.findAllbySellerId(sellerId, index);
-	}
-	@Override
-	public int countProductBySellerId(int sellerId)
-	{
-		return productDao.countProductBySellerId(sellerId);
-	}
+	/*
+	 * @Override public ProductModel productbySellerId(int sellerId) { return
+	 * productDao.productbySellerId(sellerId); } public List<ProductModel>
+	 * findAllbySellerId(int sellerId, int index) { return
+	 * productDao.findAllbySellerId(sellerId, index); }
+	 * 
+	 * @Override public int countProductBySellerId(int sellerId) { return
+	 * productDao.countProductBySellerId(sellerId); }
+	 */
 
 	@Override
 	public ProductModel findCateIdByProductId(int id) {
@@ -119,5 +116,11 @@ public class ProductServiceImpl extends ConnectionDB implements iProductService 
 	public List<ProductModel> findProductbyCateIdTop4(int cateId) {
 		// TODO Auto-generated method stub
 		return productDao.findProductbyCateIdTop4(cateId);
+	}
+	
+	@Override
+	public List<ProductCategoryDTO> getProductCountByCategory() {
+		// TODO Auto-generated method stub
+		return productDao.getProductCountByCategory();
 	}
 }

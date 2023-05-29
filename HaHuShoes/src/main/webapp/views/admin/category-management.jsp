@@ -37,6 +37,8 @@
                             <a href="user-management" class="dropdown-item">Users</a>
                             <a href="category-management" class="dropdown-item active">Categories</a>
                             <a href="product-management" class="dropdown-item">Products</a>
+                            <a href="order-management" class="dropdown-item">Order</a>
+                            
                         </div>
                     </div>
                    
@@ -69,7 +71,6 @@
 							<th scope="col">CateName</th>
 							<th scope="col">Cate Code</th>
 							<th scope="col">Images</th>
-							<th scope="col">Seller ID</th>
 							<th scope="col">Status</th>
 
 						</tr>
@@ -83,8 +84,6 @@
 								<td>${list.categoryCode}</td>
 								<td><img class="rounded-circle" src="${list.images}" alt=""
 									style="width: 70px; height: 70px;"></td>
-
-								<td>${list.sellerId}</td>
 
 								<c:if test="${list.status ==1 }">
 									<td>Hoạt động</td>

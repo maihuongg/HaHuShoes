@@ -6,8 +6,6 @@ public class CategoryModel {
 	private String categoryCode;
 	private String images;
 	private int status;
-	private int sellerId;
-	private SellerModel sellerModel ;
 	public int getCategoryId() {
 		return categoryId;
 	}
@@ -38,28 +36,14 @@ public class CategoryModel {
 	public void setStatus(int status) {
 		this.status = status;
 	}
-	public int getSellerId() {
-		return sellerId;
-	}
-	public void setSellerId(int sellerId) {
-		this.sellerId = sellerId;
-	}
-	public SellerModel getSellerModel() {
-		return sellerModel;
-	}
-	public void setSellerModel(SellerModel sellerModel) {
-		this.sellerModel = sellerModel;
-	}
-	public CategoryModel(int categoryId, String categoryName, String categoryCode, String images, int status,
-			int sellerId, SellerModel sellerModel) {
+
+	public CategoryModel(int categoryId, String categoryName, String categoryCode, String images, int status) {
 		super();
 		this.categoryId = categoryId;
 		this.categoryName = categoryName;
 		this.categoryCode = categoryCode;
 		this.images = images;
 		this.status = status;
-		this.sellerId = sellerId;
-		this.sellerModel = sellerModel;
 	}
 	public CategoryModel() {
 		super();

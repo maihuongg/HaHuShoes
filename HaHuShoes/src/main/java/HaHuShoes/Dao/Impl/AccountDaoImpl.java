@@ -12,7 +12,7 @@ import org.apache.catalina.tribes.transport.RxTaskPool;
 
 import HaHuShoes.Connection.ConnectionDB;
 import HaHuShoes.Dao.iAccountDao;
-
+import HaHuShoes.Model.CountByRoleName;
 import HaHuShoes.Model.UserModel;
 
 public class AccountDaoImpl extends ConnectionDB implements iAccountDao {
@@ -139,11 +139,12 @@ public class AccountDaoImpl extends ConnectionDB implements iAccountDao {
 	@Override
 	public void delete(String username) {
 		// TODO Auto-generated method stub
-		String sql = "delete Users where userName = ?";
+		String sql = "update Users set status=? where userName = ?";
 		try {
 			Connection con = super.getConnectionW();
 			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setString(1, username);
+			ps.setInt(1, 0);
+			ps.setString(2, username);
 			ps.executeUpdate();
 		} catch (Exception e) {
 
@@ -228,7 +229,7 @@ public class AccountDaoImpl extends ConnectionDB implements iAccountDao {
 	}
 	@Override
 	public boolean insertUser(UserModel account) {
-		String sql = "insert into Users(username, email, fullname, password, status) values(?, ?, ?, ?, ?)";
+		String sql = "insert into Users(username, email, fullname, password, roleId, status) values(?, ?, ?, ?, ?,?)";
 		try
 		{
 			Connection conn = super.getConnectionW();
@@ -238,6 +239,7 @@ public class AccountDaoImpl extends ConnectionDB implements iAccountDao {
 			ps.setString(3, account.getFullName());
 			ps.setString(4, account.getPassword());
 			ps.setInt(5, 3);
+			ps.setInt(6, 1);
 			ps.executeUpdate();
 			return true;
 		} catch (Exception e)
@@ -246,5 +248,30 @@ public class AccountDaoImpl extends ConnectionDB implements iAccountDao {
 		}
 		return false;
 
+	}
+	
+	@Override
+	public List<CountByRoleName> countbyRoleNames() {
+
+		List<CountByRoleName> result = new ArrayList<>();
+		// TODO Auto-generated method stub
+		String sql = "SELECT UserRole.RoleName, COUNT(*) AS CountRoleName\r\n"
+				+ "FROM UserRole\r\n"
+				+ "LEFT JOIN Users ON Users.roleId = UserRole.roleId\r\n"
+				+ "GROUP BY UserRole.RoleName;";
+		try {
+			Connection con = super.getConnectionW();
+			PreparedStatement ps = con.prepareStatement(sql);
+			ResultSet rSet = ps.executeQuery();
+			while (rSet.next()) {
+				 String roleName = rSet.getString("RoleName");
+	             int countRoleName = rSet.getInt("CountRoleName");
+	             CountByRoleName countByRoleName = new CountByRoleName( roleName, countRoleName);
+	             result.add(countByRoleName);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return result;
 	}
 }

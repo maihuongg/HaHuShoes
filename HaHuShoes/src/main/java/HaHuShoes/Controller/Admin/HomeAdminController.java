@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import HaHuShoes.Model.CategoryModel;
+import HaHuShoes.Model.OrderModel;
 import HaHuShoes.Model.ProductModel;
 import HaHuShoes.Service.iAccountService;
 import HaHuShoes.Service.iCategoryService;
@@ -44,6 +45,25 @@ public class HomeAdminController extends HttpServlet{
 		int totalMoney = orderService.TotalModey();
 		req.setAttribute("totalMoney", totalMoney);
 		
+		int count = orderService.countAllOrderConfirm();
+		
+		String indexString = req.getParameter("index");
+		int index;
+		if (indexString == null) {
+			index = 1;
+		} else {
+			index = Integer.parseInt(req.getParameter("index"));
+		}
+
+		int endP = count / 3;
+		if (count % 3 != 0) {
+			endP++;
+		}
+		List<OrderModel> orderList= orderService.findOrderConfirm(index);
+		
+		req.setAttribute("tag", index);
+		req.setAttribute("endP", endP);
+		req.setAttribute("orderList", orderList);
 		req.getRequestDispatcher("/views/admin/index.jsp").forward(req, resp);
 	}
 

@@ -44,6 +44,7 @@
 							href="shop" class="nav-item nav-link">Shop</a>
 						<a href="cart" class="nav-item nav-link">Shopping Cart</a>
 						<a href="contact" class="nav-item nav-link">Contact</a>
+						<a href="order" class="nav-item nav-link">Order</a>
 					</div>
 					<div class="navbar-nav ml-auto py-0">
 						<c:if test="${sessionScope.account != null}">

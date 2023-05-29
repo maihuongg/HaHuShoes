@@ -34,9 +34,10 @@
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i> Management </a>
                         <div class="dropdown-menu bg-transparent border-0">
-                            <a href="user-management" class="dropdown-item active" >Users</a>
-                            <a href="category-management" class="dropdown-item">Categories</a>
-                            <a href="product-management" class="dropdown-item">Products</a>
+                            <a href="/Lecture03/admin/user-management" class="dropdown-item active">Users</a>
+                            <a href="/Lecture03/admin/category-management" class="dropdown-item">Categories</a>
+                            <a href="/Lecture03/admin/product-management" class="dropdown-item">Products</a>
+                            <a href="/Lecture03/admin/order-management" class="dropdown-item">Orders</a>
                         </div>
                     </div>
                    
@@ -92,7 +93,6 @@
 									<label for="exampleFormControlSelect1">RoleID select</label> <select
 										class="form-control" id="roleId" name="roleId">
 										<option value="1">Admin</option>
-										<option value="2">Seller</option>
 										<option value="3">Khách</option>
 									</select>
 								</div>

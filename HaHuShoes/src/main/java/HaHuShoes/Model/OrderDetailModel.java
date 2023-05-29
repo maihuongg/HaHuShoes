@@ -13,16 +13,18 @@ public class OrderDetailModel {
 	private double unitPrice;
 	private int productId;
 	private int orderId;
+	private String productName;
 	public OrderDetailModel() {
 		super();
 	}
-	public OrderDetailModel(int odetailId, int quantity, double unitPrice, int productId, int orderId) {
+	public OrderDetailModel(int odetailId, int quantity, double unitPrice, int productId, int orderId, String productName) {
 		super();
 		this.odetailId = odetailId;
 		this.quantity = quantity;
 		this.unitPrice = unitPrice;
 		this.productId = productId;
 		this.orderId = orderId;
+		this.productName = productName;
 	}
 	public int getOdetailId() {
 		return odetailId;
@@ -54,5 +56,12 @@ public class OrderDetailModel {
 	public void setOrderId(int orderId) {
 		this.orderId = orderId;
 	}
+	public String getProductName() {
+		return productName;
+	}
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+	
 	
 }
